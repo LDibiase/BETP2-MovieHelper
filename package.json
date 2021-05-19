@@ -1,0 +1,19 @@
+{
+  "name": "betp2-moviehelper",
+  "version": "1.0.0",
+  "description": "Backennd trabajo practico TP2 - MovieHelper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LDibiase/BETP2-MovieHelper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LDibiase/BETP2-MovieHelper/issues"
+  },
+  "homepage": "https://github.com/LDibiase/BETP2-MovieHelper#readme"
+}
