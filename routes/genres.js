@@ -1,13 +1,14 @@
 const axios = require("axios").default;
+require('dotenv').config(); //para las variables de entorno
 
 const options = {
   method: 'GET',
   url: 'https://streaming-availability.p.rapidapi.com/genres',
   headers: {
 
-    //subir a heroku
-    'x-rapidapi-key': '469bf30c58msh1ef857e24e9a20bp1d69dcjsn99a37afaf88a',
-    'x-rapidapi-host': 'streaming-availability.p.rapidapi.com'
+    //en heroku
+    'x-rapidapi-key': process.env.X_RAPIDAPI_KEY,
+    'x-rapidapi-host': process.env.X-RAPIDAPI-HOST
   }
 };
 
