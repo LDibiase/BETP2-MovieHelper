@@ -15,18 +15,28 @@ simplificando la estresante tarea de buscar plataforma por plataforma cada vez q
 -imagen del film
 -protagonistas
 -año
--lista de géneros 
 -plataformas en la que se encuentra publicada
+.lista de géneros 
 -Acción de favoritear
 -Listado de pelis favoritas.
 -Base de datos (mongoDB)
 
-# actores/roles:
+# Actores/roles:
 -Usuarios
 
 # Entidades principales:
 -Usuarios
 -Películas
 
-
+# Instrucciones tecnicas
+npm install express --save (instala express)
+npm install express-generator -g (genera un "esqueleto" de la aplicación Express)
 npm install axios --save (Para la instalacion de Axios)
+npm install mongodb (para la base de datos)
+
+# Endpoints
+- Un endpoint para el login
+- Un endpoint que retorne una lista de peliculas por plataforma
+- Un endpoint que retorne pelicula determinada (busqueda por nombre)
+- Un endpoint que retorne una lista de peliculas por genero?
+
