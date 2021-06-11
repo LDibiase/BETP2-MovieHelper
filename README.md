@@ -38,5 +38,5 @@ npm install mongodb (para la base de datos)
 - Un endpoint para el login
 - Un endpoint que retorne una lista de peliculas por plataforma
 - Un endpoint que retorne pelicula determinada (busqueda por nombre)
-- Un endpoint que retorne una lista de peliculas por genero?
+- Un endpoint que retorne una lista de peliculas por genero
 

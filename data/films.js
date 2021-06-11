@@ -1,4 +1,5 @@
 const axios = require("axios").default;
+require('dotenv').config(); //para las variables de entorno
 
   //recibimos el nombre que mandamos a la consulta de la API
   function params (nombrePeli) {
@@ -14,9 +15,9 @@ function getFilm (filmName) {
         url: 'https://streaming-availability.p.rapidapi.com/search/basic',
         params:params(filmName),
         headers: {
-            //mover esto a heroku
-          'x-rapidapi-key': '2e201709d3mshcc8b942e035c08ap1c5bbfjsn9dba6c19c6b6',
-          'x-rapidapi-host': 'streaming-availability.p.rapidapi.com'
+            //referencia de variable de entorno en heroku
+          'x-rapidapi-key': process.env.X_RAPIDAPI_KEY,
+          'x-rapidapi-host': process.env.X-RAPIDAPI-HOST
         }
       };
       return options
@@ -53,7 +54,6 @@ function getAvatar(options){
     });
     }
 
-
-
+module.exports = {getFilm, getGenres, getPlatform, getAvatar};
 
 
