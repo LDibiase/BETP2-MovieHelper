@@ -3,9 +3,11 @@ var router = express.Router();
 const datausuarios = require('../data/db/usuariosdb')
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/', async function(req, res, next) {
+  const usuario = await datausuarios.getUsuarios();
+    res.json(usuario); 
+    //no funciona el connection no se por que  
+  });
 
 
 // router.get('/:id', async (req, res)=> {
@@ -20,15 +22,14 @@ router.post('/', async (req, res)=>{
   res.json(result);
 });
 
-// router.post('/login', async (req, res)=>{
-//   try {
-//     const user = await data.findByCredentials(req.body.email, req.body.password);
-//     console.log(user);
-//     const token = await data.generateJWT(user);
-
-//     res.send({user, token});
-//   } catch (error) {
-//     res.status(401).send(error.message);
-//   }
-// });
+ router.post('/login', async (req, res)=>{
+   try {
+     const user = await data.findByCredentials(req.body.email, req.body.password);
+     console.log(user);
+     const token = await data.generateJWT(user);
+     res.send({user, token});
+   } catch (error) {
+     res.status(401).send(error.message);
+   }
+ });
 module.exports = router;

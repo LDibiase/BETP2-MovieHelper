@@ -1,17 +1,41 @@
 const connection = require('./connections')
 let ObjectId = require('mongodb').ObjectId;
 
-async function getUsuario() {
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+async function getUsuarios() {
     const clientMongo = await connection.getConnection();
-    const usuarios = clientMongo.db('moviehelper').collection('usuarios').find().toArray();
+    const usuarios = await clientMongo
+    .db('moviehelper')
+    .collection('usuarios')
+    .find()
+    .toArray();
     return usuarios;
 }
-// async function getUsuarioId(id) {
-//         const clientmongo = await connection.getConnection();
-//         const usuario = await clientmongo.db('moviehelper')
-//             .collection('usuarios')
-//             .findOne({_id: new ObjectId(id)});
-//         return usuario;
-// }
 
-module.exports = {getUsuario, getUsuarioId};
+const UserSchema = new Schema({
+  nombre: {
+    type: String,
+    required: true,
+  },
+  apellido: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  favoritos: {
+    type: Array,
+    default: [],
+  },
+});
+
+const User = mongoose.model('User', UserSchema);
+module.exports = {User, getUsuarios};

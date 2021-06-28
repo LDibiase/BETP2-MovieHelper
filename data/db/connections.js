@@ -1,16 +1,20 @@
+require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
-const url = require('dotenv').config();
-const client = new MongoClient(url)
+URL = 'mongodb+srv://moviehelper:moviehelper123@cluster0.hegwv.mongodb.net/moviehelper?retryWrites=true&w=majority'
+
+const client = new MongoClient(URL);
 
 let instance = null;
 
-async function getConnection() {
-    if (instance == null) {
-        try {
+async function getConnection(){
+    if(instance == null){
+        try{
             instance = await client.connect();
-        } catch (err) {
-            console.log(err.message)
+        } catch(err){
+            console.log(err.message);
         }
     }
+    return instance;
 }
+
 module.exports = {getConnection};

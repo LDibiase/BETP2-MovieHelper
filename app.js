@@ -1,8 +1,16 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+const dotenv = require('dotenv').config();
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
+//Set up mongoose connection
+// var mongoose = require('mongoose');
+// var mongoDB = 'mongodb+srv://moviehelper: moviehelper123@cluster0.hegwv.mongodb.net/moviehelper?retryWrites=true&w=majority';
+// mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
+// var db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
