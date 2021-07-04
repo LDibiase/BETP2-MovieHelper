@@ -4,7 +4,7 @@ const dataGenres = require('../data/genres');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    const requests = dataGenres.getGenre();
+    const requests = dataGenres.getGenre(req);
 
     Promise.all(requests)
     .then((responses) => {
