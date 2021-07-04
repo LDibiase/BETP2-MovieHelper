@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const dataGenres = require('../data/genres');
 
-/* GET home page. */
 router.get('/:id', function(req, res) {
     const requests = dataGenres.getGenre(req.params.id);
 
