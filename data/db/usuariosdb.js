@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 const connection = require('./connections')
 let ObjectId = require('mongodb').ObjectId;
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
    async function getUsuarios() {
        const clientMongo = await connection.getConnection();
@@ -12,27 +12,10 @@ let ObjectId = require('mongodb').ObjectId;
        .toArray();
        return usuarios;
     }
-    async function getUsuarioPorId(email) {
-      const clientMongo = await connection.getConnection();
-      const user = await clientMongo
-      .db("moviehelper")
-      .collection("usuarios")
-      .findOne()
-      return user;
-    }
-async function getUsuarioPorContrasenia(email, pass) {
-  const clientMongo = await connection.getConnection();
-  const user = await clientMongo
-    .db("moviehelper")
-    .collection("usuarios")
-    .find({ email: new ObjectId(email), password: new ObjectId(pass) });
-
-  return user;
-}
 
 async function addUser(user){
   const connectiondb = await connection.getConnection();
-  //user.password = bcrypt.hashSync(user.password, 8);
+  user.password = bcrypt.hashSync(user.password, 8);
 
   const result = await connectiondb.db('moviehelper')
                           .collection('usuarios')
@@ -40,29 +23,24 @@ async function addUser(user){
   return result;
 }
 
+async function findUser(email, password){
+  const connectiondb = await connection.getConnection();
+  const user = await connectiondb.db('moviehelper')
+                          .collection('usuarios')
+                          .findOne({email:email});
+  console.log('Usuario', user);
+  if(!user){
+      throw new Error('Usuario inexistente');
+  }
+   const isMatch =  bcrypt.compareSync(password, user.password);
+   if(!isMatch){
+       throw new Error('Password invalida');
+   } 
+  return user;
+}
+async function generateJWT(user){
+  const token = jwt.sign({_id: user._id, email: user.email}, process.env.SECRET, {expiresIn: '1h'});
+  return token;
+}
 
-const UserSchema = new Schema({
-  nombre: {
-    type: String,
-    required: true,
-  },
-  apellido: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  favoritos: {
-    type: Array,
-    default: [],
-  },
-});
-
-const User = mongoose.model('User', UserSchema);
-module.exports = {User, getUsuarios, getUsuarioPorId, getUsuarioPorContrasenia, addUser};
+module.exports = {getUsuarios, addUser, findUser, generateJWT};

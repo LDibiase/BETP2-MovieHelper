@@ -2,33 +2,28 @@ var express = require('express');
 var router = express.Router();
 const User = require('../data/db/usuariosdb')
 
+
 router.get('/', async function(req, res, next) {
      const usuario = await User.getUsuarios();
        res.json(usuario);  
      });
 
-router.get('/:email', async (req, res)=>{
-   const user = await User.getUsuarioPorId(req.params.email);
-   res.send(user);
-  // User.findOne({ email: req.params.id })
-  //   .then((user) =>
-  //     user
-  //       ? res.json(user)
-  //       : res.status(404).json({ message: "Couldn't find user" })
-  //   )
-  //   .catch((error) => res.status(500).json({ message: error.message }));
-});
-
-// GET by email and password
-router.get('/:email/:pass', async function (req, res) {
-  const usuario = await User.getUsuarioPorContrasenia(req.params.email, req.param.pass);
-  res.json(usuario);  
-});
-
 // POST
 router.post('/', async (req, res) => {
   const result = await User.addUser(req.body);
   res.json(result);
+});
+
+router.post('/login', async (req, res)=>{
+  try {
+    const user = await User.findUser(req.body.email, req.body.password);
+    console.log(user);
+    const token = await User.generateJWT(user);
+
+    res.send({user, token});
+  } catch (error) {
+    res.status(401).send(error.message);
+  }
 });
 
 // PUT add favorites

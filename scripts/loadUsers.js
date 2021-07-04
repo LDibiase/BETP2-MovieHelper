@@ -6,7 +6,7 @@ db.usuarios.insertMany([{
     "email": "orne@gmail.com",
     "password": "abc123",
     "favoritos": []
-}
+},
 {
     "nombre": "andy",
     "apellido": "fowler",
