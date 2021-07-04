@@ -41,8 +41,6 @@ router.get('/netflix', (req, res) => {
 });
 
 router.get('/primeVideo', (req, res) => {
-
-
   const requestsForPlatform = dataFilms.getFilmsForPrimeVideo();
 
   Promise.all(requestsForPlatform)
@@ -58,28 +56,20 @@ router.get('/primeVideo', (req, res) => {
     .catch((error) => res.status(500).json({ message: error.message }));
 });
 
-// # Intento de hacer mismo endpoint para ambas plataformas (no funciona) 
+router.get('/:title', (req, res) => {
+  const requestsForPlatform = dataFilms.getFilmByName(req.params.title);
 
-// router.get('/:platform', (req, res) => {
-
-
-//   const requestsForPlatform = dataFilms.getFilmsByPlatforms(req.param.body);
-
-//   Promise.all(requestsForPlatform)
-//     .then((responses) => {
-//       const movies = responses.reduce(
-//         (acc, response) => [...acc, ...response.data.results],
-//         []
-//       );
-//       movies.length
-//         ? res.send(movies)
-//         : res.status(404).json({ message: "Couldn't find movies" });
-//     })
-//     .catch((error) => res.status(500).json({ message: error.message }));
-// });
-
-
-
-
+  Promise.all(requestsForPlatform)
+  .then((responses) => {
+    const movies = responses.reduce(
+      (acc, response) => [...acc, ...response.data.results],
+      []
+    );
+    movies
+      ? res.send(movies)
+      : res.status(404).json({ message: "Couldn't find movies" });
+  })
+  .catch((error) => res.status(500).json({ message: error.message }));
+})
 
 module.exports = router;
