@@ -26,13 +26,9 @@ router.get('/:email/:pass', async function (req, res) {
 });
 
 // POST
-router.post('/', (req, res) => {
-  const user = new User(req.body);
-
-  user
-    .save()
-    .then((newUser) => res.status(201).send(newUser))
-    .catch((error) => res.status(404).json({ message: error.message }));
+router.post('/', async (req, res) => {
+  const result = await User.addUser(req.body);
+  res.json(result);
 });
 
 // PUT add favorites
