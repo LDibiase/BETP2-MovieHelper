@@ -33,6 +33,8 @@ npm install express --save (instala express)
 npm install express-generator -g (genera un "esqueleto" de la aplicación Express)
 npm install axios --save (Para la instalacion de Axios)
 npm install mongodb (para la base de datos)
+npm install bcryptjs
+npm install jsonwebtoken
 
 # Endpoints
 - Un endpoint para el login
