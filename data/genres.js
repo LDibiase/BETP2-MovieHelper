@@ -1,20 +1,22 @@
 const axios = require("axios").default;
+const router = express.Router();
 const dotenv = require('dotenv').config(); //para las variables de entorno
 
-const options = {
-  method: 'GET',
-  url: 'https://streaming-availability.p.rapidapi.com/genres',
-  headers: {
-    'x-rapidapi-key': process.env.X_RAPIDAPI_KEY,
-    'x-rapidapi-host': process.env.X_RAPIDAPI_HOST
-  }
-};
+function getGenre(genCode){
+  const requests = [];
+    requests.push(
+      axios.request({
+        method: 'GET',
+        url:`${process.env.GENRES_API}/${genCode}`,
+        headers: {
+          'x-rapidapi-key': process.env.X_RAPIDAPI_KEY,
+          'x-rapidapi-host': process.env.X_RAPIDAPI_HOST
+        }
+      },
+      )
+    )
+    return requests;
+}
 
-function codeGenre(codigo){
-    axios.request(options).then(function (response) {
-	    return response.data.codigo
-}).catch(function (error) {
-	console.error(error);
-});
-};
-module.exports = {codeGenre};
+
+module.exports = getGenre;
