@@ -42,12 +42,13 @@ function getAllGenres(){
   requests.push(
     axios.request({
     method: 'GET',
-    url: process.env.GENRES_API,
+    url: `${process.env.MOVIES_API}/genres`,
     headers: {
       'x-rapidapi-key': process.env.GENRES_RAPIDAPI_KEY,
       'x-rapidapi-host': process.env.X_RAPIDAPI_HOST
     }
     }));
+console.log(requests);
 
   return requests
 }

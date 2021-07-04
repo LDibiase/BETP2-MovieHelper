@@ -21,7 +21,7 @@ router.get('/:id', function(req, res) {
   router.get('/', function(req, res){
     const requests = dataGenres.getAllGenres();
 
-    Promise.all(requests)
+     Promise.all(requests)
     .then((responses) => {
         const genre = responses.reduce(
           (acc, response) => [...acc, ...response.data.results],
