@@ -36,4 +36,20 @@ function getGenre(genCode){
  return requests
 }
 
-module.exports = {getGenre};
+function getAllGenres(){
+  const requests = [];
+
+  requests.push(
+    axios.request({
+    method: 'GET',
+    url: process.env.GENRES_API,
+    headers: {
+      'x-rapidapi-key': process.env.GENRES_RAPIDAPI_KEY,
+      'x-rapidapi-host': process.env.X_RAPIDAPI_HOST
+    }
+    }));
+
+  return requests
+}
+
+module.exports = {getGenre, getAllGenres};
