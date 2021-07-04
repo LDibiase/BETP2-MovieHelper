@@ -3,13 +3,13 @@ var router = express.Router();
 const dataGenres = require('../data/genres');
 
 /* GET home page. */
-router.get('/', function(req, res) {
-    const requests = dataGenres.getGenre(req);
+router.get('/:id', function(req, res) {
+    const requests = dataGenres.getGenre(req.params.id);
 
     Promise.all(requests)
     .then((responses) => {
         const genre = responses.reduce(
-          (acc, response) => [...acc, ...response],
+          (acc, response) => [...acc, ...response.data.results],
           []
         );
         genre.length

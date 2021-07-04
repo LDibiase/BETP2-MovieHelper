@@ -1,35 +1,85 @@
 var express = require('express');
 var router = express.Router();
-const datausuarios = require('../data/db/usuariosdb')
+const User = require('../data/db/usuariosdb')
 
-/* GET users listing. */
 router.get('/', async function(req, res, next) {
-  const usuario = await datausuarios.getUsuarios();
-    res.json(usuario); 
-    //no funciona el connection no se por que  
-  });
+     const usuario = await User.getUsuarios();
+       res.json(usuario);  
+     });
 
-
-// router.get('/:id', async (req, res)=> {
-//   const usuario = await datausuarios.getUsuarioId(req.params.id);
-//     res.json(usuario);
-// });
-
-
-//endpoint post para login con google
-router.post('/', async (req, res)=>{
-  const result = await data.addUser(req.body);
-  res.json(result);
+router.get('/:email', async (req, res)=>{
+   const user = await User.getUsuarioPorId(req.params.email);
+   res.send(user);
+  // User.findOne({ email: req.params.id })
+  //   .then((user) =>
+  //     user
+  //       ? res.json(user)
+  //       : res.status(404).json({ message: "Couldn't find user" })
+  //   )
+  //   .catch((error) => res.status(500).json({ message: error.message }));
 });
 
- router.post('/login', async (req, res)=>{
-   try {
-     const user = await data.findByCredentials(req.body.email, req.body.password);
-     console.log(user);
-     const token = await data.generateJWT(user);
-     res.send({user, token});
-   } catch (error) {
-     res.status(401).send(error.message);
-   }
- });
+// GET by email and password
+router.get('/:email/:pass', async function (req, res) {
+  const usuario = await User.getUsuarioPorContrasenia(req.params.email, req.param.pass);
+  res.json(usuario);  
+});
+
+// POST
+router.post('/', (req, res) => {
+  const user = new User(req.body);
+
+  user
+    .save()
+    .then((newUser) => res.status(201).send(newUser))
+    .catch((error) => res.status(404).json({ message: error.message }));
+});
+
+// PUT add favorites
+router.put('/:userId', (req, res) => {
+  const userId = req.params.userId;
+
+  User.findOne({ _id: userId })
+    .then((user) =>
+      User.findOneAndUpdate(
+        { _id: userId },
+        { favoritos: [...user.favoritos, req.body] },
+        { new: true }
+      )
+        .then((user) =>
+          user
+            ? res.json(user)
+            : res.status(404).json({ message: "User couldn't be updated" })
+        )
+        .catch((error) => res.status(500).json({ message: error.message }))
+    )
+    .catch((error) => res.status(500).json({ message: error.message }));
+});
+
+// PUT remove favorite
+router.put('/:userId/:filmId', (req, res) => {
+  const userId = req.params.userId;
+  const filmId = req.params.filmId;
+
+  User.findOne({ _id: userId })
+    .then((user) => {
+      const idx = user.favoritos.findIndex((f) => f.imdbID === filmId);
+      const favoritos = [...user.favoritos];
+
+      if (idx > -1) {
+        favoritos.splice(idx, 1);
+        User.findOneAndUpdate({ _id: userId }, { favoritos }, { new: true })
+          .then((user) =>
+            user
+              ? res.json(user)
+              : res.status(404).json({ message: "User couldn't be updated" })
+          )
+          .catch((error) => res.status(500).json({ message: error.message }));
+      } else {
+        res.status(404).json({ message: 'Film is not a favorite' });
+      }
+    })
+    .catch((error) => res.status(500).json({ message: error.message }));
+});
+
 module.exports = router;

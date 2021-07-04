@@ -1,8 +1,8 @@
 require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
-URL = 'mongodb+srv://moviehelper:moviehelper123@cluster0.hegwv.mongodb.net/moviehelper?retryWrites=true&w=majority'
+// URL = 'mongodb+srv://moviehelper:moviehelper123@cluster0.hegwv.mongodb.net/moviehelper?retryWrites=true&w=majority'
 
-const client = new MongoClient(URL);
+const client = new MongoClient(process.env.URL);
 
 let instance = null;
 
