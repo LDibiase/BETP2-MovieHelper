@@ -7,6 +7,11 @@ router.get('/', async function(req, res, next) {
      const usuario = await User.getUsuarios();
        res.json(usuario);  
      });
+// # EndPoint que muestre usuario por mail
+router.get('/:email', async (req, res) => {
+  const usuario = await User.findUserByEmail(req.params.email);
+  res.json(usuario)
+})     
 
 // # EndPoint para crear un usuario
 router.post('/', async (req, res) => {
