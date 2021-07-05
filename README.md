@@ -6,7 +6,7 @@ vez, al loguearse, tener una opción donde obtener una lista de películas favor
 simplificando la estresante tarea de buscar plataforma por plataforma cada vez que se actualizan las mismas. 
 
 # Funcionalidades: 
-.Pantalla de login/registro (con google)
+.Pantalla de login/registro 
 .En la pantalla principal:
 -Busqueda de peliculas
 .Vista de película:
